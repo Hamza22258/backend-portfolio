@@ -32,8 +32,12 @@ export const metadata: Metadata = {
   ],
   authors: [{ name: "Hamza Malik", url: "https://linkedin.com/in/iamhamzamalik" }],
   icons: {
-    icon: [{ url: "/icon.svg", type: "image/svg+xml" }],
-    apple: [{ url: "/icon.svg", type: "image/svg+xml" }],
+    icon: [
+      { url: "/favicon.ico", sizes: "any" },
+      { url: "/icon.svg", type: "image/svg+xml" },
+    ],
+    shortcut: "/favicon.ico",
+    apple: "/favicon.png",
   },
   openGraph: {
     title: "Hamza Malik | Technical Lead & Distributed Systems Architect",
@@ -55,6 +59,11 @@ export default function RootLayout({
       lang="en"
       className={`${geistSans.variable} ${geistMono.variable} dark antialiased scroll-smooth`}
     >
+      <head>
+        <link rel="icon" href="/favicon.ico" sizes="any" />
+        <link rel="icon" href="/icon.svg" type="image/svg+xml" />
+        <link rel="apple-touch-icon" href="/favicon.png" />
+      </head>
       <body className="flex flex-col bg-[#05070a] text-slate-100 font-sans selection:bg-cyan-500/30 selection:text-white">
         {children}
       </body>
