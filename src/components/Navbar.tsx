@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import { Terminal, FileDown, Mail, Check, Menu, X, ShieldCheck } from "lucide-react";
+import { Terminal, FileDown, Mail, Check, Menu, X } from "lucide-react";
 
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
@@ -12,14 +12,27 @@ export default function Navbar() {
     const handleScroll = () => {
       setScrolled(window.scrollY > 20);
     };
-    window.addEventListener("scroll", handleScroll);
+    window.addEventListener("scroll", handleScroll, { passive: true });
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
   const copyEmail = () => {
     navigator.clipboard.writeText("hamzamalik22258@gmail.com");
     setCopied(true);
-    setTimeout(() => setCopied(false), 2000);
+    setTimeout(() => setCopied(false), 2500);
+  };
+
+  const scrollToSection = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
+    e.preventDefault();
+    if (href === "#") {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+      return;
+    }
+    const targetId = href.replace("#", "");
+    const elem = document.getElementById(targetId);
+    if (elem) {
+      elem.scrollIntoView({ behavior: "smooth" });
+    }
   };
 
   const navLinks = [
@@ -42,7 +55,11 @@ export default function Navbar() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between">
           {/* Brand & Monogram */}
-          <a href="#" className="flex items-center gap-3 group">
+          <a
+            href="#"
+            onClick={(e) => scrollToSection(e, "#")}
+            className="flex items-center gap-3 group"
+          >
             <div className="w-9 h-9 rounded-lg bg-cyan-500/10 border border-cyan-500/30 flex items-center justify-center text-cyan-400 group-hover:border-cyan-400 group-hover:bg-cyan-500/20 transition-all">
               <Terminal className="w-4 h-4" />
             </div>
@@ -68,7 +85,8 @@ export default function Navbar() {
               <a
                 key={link.name}
                 href={link.href}
-                className="px-3 py-1 text-xs font-mono text-slate-400 hover:text-cyan-300 hover:bg-white/[0.04] rounded-md transition-all"
+                onClick={(e) => scrollToSection(e, link.href)}
+                className="px-3 py-1 text-xs font-mono text-slate-400 hover:text-cyan-300 hover:bg-white/[0.04] rounded-md transition-all cursor-pointer"
               >
                 {link.name}
               </a>
@@ -77,10 +95,11 @@ export default function Navbar() {
 
           {/* Action Buttons */}
           <div className="hidden sm:flex items-center gap-2.5">
-            <button
+            <a
+              href="mailto:hamzamalik22258@gmail.com"
               onClick={copyEmail}
               className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-mono bg-slate-900/80 border border-slate-800 text-slate-300 hover:text-white hover:border-slate-700 transition-all cursor-pointer"
-              title="Copy hamzamalik22258@gmail.com"
+              title="Click to email or copy hamzamalik22258@gmail.com"
             >
               {copied ? (
                 <>
@@ -90,10 +109,10 @@ export default function Navbar() {
               ) : (
                 <>
                   <Mail className="w-3.5 h-3.5 text-slate-400" />
-                  <span>Email</span>
+                  <span>Send Email</span>
                 </>
               )}
-            </button>
+            </a>
 
             <a
               href="/resume.pdf"
@@ -140,7 +159,10 @@ export default function Navbar() {
               <a
                 key={link.name}
                 href={link.href}
-                onClick={() => setMobileMenuOpen(false)}
+                onClick={(e) => {
+                  setMobileMenuOpen(false);
+                  scrollToSection(e, link.href);
+                }}
                 className="px-3 py-2 text-sm font-mono text-slate-300 hover:text-cyan-400 hover:bg-white/[0.04] rounded-lg transition-all"
               >
                 {link.name}
@@ -148,7 +170,8 @@ export default function Navbar() {
             ))}
 
             <div className="pt-2 mt-1 border-t border-white/[0.05] flex gap-2">
-              <button
+              <a
+                href="mailto:hamzamalik22258@gmail.com"
                 onClick={() => {
                   copyEmail();
                   setMobileMenuOpen(false);
@@ -156,8 +179,8 @@ export default function Navbar() {
                 className="flex-1 py-2 rounded-lg text-xs font-mono bg-slate-900 border border-slate-800 text-slate-300 flex items-center justify-center gap-2"
               >
                 <Mail className="w-4 h-4 text-cyan-400" />
-                <span>Copy Email</span>
-              </button>
+                <span>Send Email</span>
+              </a>
               <a
                 href="/resume.pdf"
                 target="_blank"

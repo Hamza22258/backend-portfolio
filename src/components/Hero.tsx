@@ -31,6 +31,13 @@ export default function Hero() {
     setTimeout(() => setCopiedCli(false), 2500);
   };
 
+  const scrollTo = (id: string) => {
+    const el = document.getElementById(id);
+    if (el) {
+      el.scrollIntoView({ behavior: "smooth" });
+    }
+  };
+
   return (
     <section className="relative pt-32 pb-20 md:pt-40 md:pb-28 overflow-hidden">
       {/* Background Gradients */}
@@ -85,21 +92,21 @@ export default function Hero() {
 
           {/* Action CTAs */}
           <div className="flex flex-wrap items-center justify-center gap-3 sm:gap-4 mb-12">
-            <a
-              href="#architecture"
+            <button
+              onClick={() => scrollTo("architecture")}
               className="inline-flex items-center gap-2 px-6 py-3 rounded-xl text-sm font-mono font-medium bg-gradient-to-r from-cyan-500 to-sky-500 text-slate-950 font-semibold hover:from-cyan-400 hover:to-sky-400 transition-all shadow-lg shadow-cyan-500/25 cursor-pointer"
             >
               <Layers className="w-4 h-4" />
               <span>Explore Architecture Canvas</span>
               <ArrowRight className="w-4 h-4" />
-            </a>
+            </button>
 
-            <a
-              href="#experience"
-              className="inline-flex items-center gap-2 px-6 py-3 rounded-xl text-sm font-mono font-medium bg-slate-900/90 text-slate-200 border border-slate-800 hover:border-slate-600 hover:bg-slate-800/80 transition-all"
+            <button
+              onClick={() => scrollTo("experience")}
+              className="inline-flex items-center gap-2 px-6 py-3 rounded-xl text-sm font-mono font-medium bg-slate-900/90 text-slate-200 border border-slate-800 hover:border-slate-600 hover:bg-slate-800/80 transition-all cursor-pointer"
             >
               <span>Career Journey</span>
-            </a>
+            </button>
 
             <div className="flex items-center gap-2">
               <a

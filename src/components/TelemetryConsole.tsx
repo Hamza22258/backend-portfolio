@@ -1,7 +1,7 @@
 "use client";
 
-import React, { useState, useEffect, useRef } from "react";
-import { Terminal, Play, Pause, RotateCcw, Activity, Check, Copy } from "lucide-react";
+import React, { useState, useRef } from "react";
+import { Terminal, Play, RotateCcw, Activity, Plus } from "lucide-react";
 
 interface LogEntry {
   id: string;
@@ -12,10 +12,6 @@ interface LogEntry {
 }
 
 export default function TelemetryConsole() {
-  const [logs, setLogs] = useState<LogEntry[]>([]);
-  const [isPaused, setIsPaused] = useState<boolean>(false);
-  const [inputCommand, setInputCommand] = useState<string>("");
-
   const initialLogs: LogEntry[] = [
     {
       id: "1",
@@ -61,13 +57,11 @@ export default function TelemetryConsole() {
     },
   ];
 
-  useEffect(() => {
-    setLogs(initialLogs);
-  }, []);
+  const [logs, setLogs] = useState<LogEntry[]>(initialLogs);
+  const [inputCommand, setInputCommand] = useState<string>("");
+  const terminalContainerRef = useRef<HTMLDivElement>(null);
 
-  useEffect(() => {
-    if (isPaused) return;
-
+  const simulatePacket = () => {
     const periodicLogs = [
       { level: "METRIC", tag: "redis.cache", message: "Cache hit: 98.7% | p99 response time: 14.1ms" },
       { level: "INFO", tag: "mqtt.health", message: "Keep-alive heartbeat ACK received from 12 POS devices" },
@@ -77,33 +71,25 @@ export default function TelemetryConsole() {
       { level: "METRIC", tag: "sqs.queue", message: "Queue lag: 0.00s | Dead-Letter Queue (DLQ) messages: 0" },
     ];
 
-    const interval = setInterval(() => {
-      const randomEntry = periodicLogs[Math.floor(Math.random() * periodicLogs.length)];
-      const now = new Date();
-      const timeString = `${now.toTimeString().split(" ")[0]}.${String(now.getMilliseconds()).padStart(3, "0")}`;
+    const randomEntry = periodicLogs[Math.floor(Math.random() * periodicLogs.length)];
+    const now = new Date();
+    const timeString = `${now.toTimeString().split(" ")[0]}.${String(now.getMilliseconds()).padStart(3, "0")}`;
 
-      setLogs((prev) => [
-        ...prev.slice(-40),
-        {
-          id: Math.random().toString(),
-          time: timeString,
-          level: randomEntry.level as any,
-          tag: randomEntry.tag,
-          message: randomEntry.message,
-        },
-      ]);
-    }, 3800);
+    setLogs((prev) => [
+      ...prev.slice(-30),
+      {
+        id: Math.random().toString(),
+        time: timeString,
+        level: randomEntry.level as any,
+        tag: randomEntry.tag,
+        message: randomEntry.message,
+      },
+    ]);
 
-    return () => clearInterval(interval);
-  }, [isPaused]);
-
-  const terminalContainerRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
     if (terminalContainerRef.current) {
       terminalContainerRef.current.scrollTop = terminalContainerRef.current.scrollHeight;
     }
-  }, [logs]);
+  };
 
   const handleCommandSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -141,6 +127,12 @@ export default function TelemetryConsole() {
       { id: Math.random().toString(), time: timeString, level: "SUCCESS", tag: "cli.output", message: reply },
     ]);
     setInputCommand("");
+
+    setTimeout(() => {
+      if (terminalContainerRef.current) {
+        terminalContainerRef.current.scrollTop = terminalContainerRef.current.scrollHeight;
+      }
+    }, 50);
   };
 
   return (
@@ -174,19 +166,20 @@ export default function TelemetryConsole() {
                 Queue Lag: <strong className="text-slate-200">0.00s</strong>
               </span>
               <span className="flex items-center gap-1.5 px-2 py-0.5 rounded bg-emerald-500/10 text-emerald-400 text-[10px]">
-                <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
+                <span className="w-1.5 h-1.5 rounded-full bg-emerald-400" />
                 HEALTHY
               </span>
             </div>
 
-            {/* Pause / Resume & Clear */}
+            {/* Action Buttons */}
             <div className="flex items-center gap-2">
               <button
-                onClick={() => setIsPaused(!isPaused)}
-                className="px-2.5 py-1 rounded bg-slate-800 hover:bg-slate-700 text-[11px] font-mono text-slate-300 flex items-center gap-1 cursor-pointer transition-colors"
+                onClick={simulatePacket}
+                className="px-2.5 py-1 rounded bg-cyan-500/10 hover:bg-cyan-500/20 text-[11px] font-mono text-cyan-300 border border-cyan-500/30 flex items-center gap-1 cursor-pointer transition-colors"
+                title="Emit Telemetry Packet"
               >
-                {isPaused ? <Play className="w-3 h-3 text-emerald-400" /> : <Pause className="w-3 h-3 text-amber-400" />}
-                <span>{isPaused ? "Resume Stream" : "Pause"}</span>
+                <Plus className="w-3 h-3 text-cyan-400" />
+                <span>Emit Packet</span>
               </button>
               <button
                 onClick={() => setLogs([])}

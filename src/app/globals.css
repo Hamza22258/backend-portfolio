@@ -25,6 +25,7 @@
 html {
   scroll-behavior: smooth;
   color-scheme: dark;
+  overflow-anchor: none;
 }
 
 body {
@@ -32,6 +33,7 @@ body {
   color: #f8fafc;
   font-family: var(--font-sans);
   overflow-x: clip;
+  overflow-anchor: none;
 }
 
 /* Background Microgrid & Glow Pattern */
