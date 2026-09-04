@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" fill="none">
+  <defs>
+    <linearGradient id="cyanGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#38bdf8" />
+      <stop offset="100%" stop-color="#10b981" />
+    </linearGradient>
+    <linearGradient id="bgGlow" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0c1222" />
+      <stop offset="100%" stop-color="#04060a" />
+    </linearGradient>
+  </defs>
+  <!-- Background Card -->
+  <rect width="64" height="64" rx="16" fill="url(#bgGlow)" stroke="#38bdf8" stroke-width="2.5" stroke-opacity="0.5" />
+  
+  <!-- "H" Column & Crossbar -->
+  <path d="M16 20V44M16 32H28M28 20V44" stroke="url(#cyanGrad)" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round" />
+  
+  <!-- "M" Column & Chevrons -->
+  <path d="M36 44V20L44 32L52 20V44" stroke="url(#cyanGrad)" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round" />
+  
+  <!-- Real-time Live Status Indicator Node -->
+  <circle cx="53" cy="13" r="3.5" fill="#10b981" />
+</svg>

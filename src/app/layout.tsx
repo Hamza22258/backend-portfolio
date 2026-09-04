@@ -31,6 +31,10 @@ export const metadata: Metadata = {
     "Microservices",
   ],
   authors: [{ name: "Hamza Malik", url: "https://linkedin.com/in/iamhamzamalik" }],
+  icons: {
+    icon: [{ url: "/icon.svg", type: "image/svg+xml" }],
+    apple: [{ url: "/icon.svg", type: "image/svg+xml" }],
+  },
   openGraph: {
     title: "Hamza Malik | Technical Lead & Distributed Systems Architect",
     description:
