@@ -129,7 +129,7 @@ export default function ExperienceTimeline() {
   const current = experiences[activeTab];
 
   return (
-    <section id="experience" className="py-24 bg-[#060910] border-b border-white/[0.06]">
+    <section id="experience" className="py-24 bg-[#060910] border-b border-white/[0.06] scroll-mt-20">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Section Header */}
         <div className="mb-14">

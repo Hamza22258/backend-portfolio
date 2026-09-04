@@ -15,7 +15,6 @@ export default function TelemetryConsole() {
   const [logs, setLogs] = useState<LogEntry[]>([]);
   const [isPaused, setIsPaused] = useState<boolean>(false);
   const [inputCommand, setInputCommand] = useState<string>("");
-  const terminalEndRef = useRef<HTMLDivElement>(null);
 
   const initialLogs: LogEntry[] = [
     {
@@ -98,8 +97,12 @@ export default function TelemetryConsole() {
     return () => clearInterval(interval);
   }, [isPaused]);
 
+  const terminalContainerRef = useRef<HTMLDivElement>(null);
+
   useEffect(() => {
-    terminalEndRef.current?.scrollIntoView({ behavior: "smooth" });
+    if (terminalContainerRef.current) {
+      terminalContainerRef.current.scrollTop = terminalContainerRef.current.scrollHeight;
+    }
   }, [logs]);
 
   const handleCommandSubmit = (e: React.FormEvent) => {
@@ -196,7 +199,10 @@ export default function TelemetryConsole() {
           </div>
 
           {/* Terminal Screen / Log Body */}
-          <div className="p-4 md:p-6 font-mono text-xs h-[260px] overflow-y-auto bg-[#060910] space-y-1.5 leading-relaxed selection:bg-cyan-500/30">
+          <div
+            ref={terminalContainerRef}
+            className="p-4 md:p-6 font-mono text-xs h-[260px] overflow-y-auto bg-[#060910] space-y-1.5 leading-relaxed selection:bg-cyan-500/30"
+          >
             {logs.map((log) => {
               const levelColor =
                 log.level === "METRIC"
@@ -218,7 +224,6 @@ export default function TelemetryConsole() {
                 </div>
               );
             })}
-            <div ref={terminalEndRef} />
           </div>
 
           {/* Interactive Command Input Form */}

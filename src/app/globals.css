@@ -31,7 +31,7 @@ body {
   background-color: #05070a;
   color: #f8fafc;
   font-family: var(--font-sans);
-  overflow-x: hidden;
+  overflow-x: clip;
 }
 
 /* Background Microgrid & Glow Pattern */

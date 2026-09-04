@@ -180,7 +180,7 @@ export default function ProjectsShowcase() {
       : projects.filter((p) => p.category === selectedFilter);
 
   return (
-    <section id="projects" className="py-24 bg-[#05070a] border-b border-white/[0.06]">
+    <section id="projects" className="py-24 bg-[#05070a] border-b border-white/[0.06] scroll-mt-20">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Section Header */}
         <div className="flex flex-col md:flex-row md:items-end justify-between mb-12">

@@ -176,7 +176,7 @@ export default function ArchitectureSimulator() {
   const selectedNode = nodes[selectedNodeIndex];
 
   return (
-    <section id="architecture" className="relative py-24 bg-[#05070a] overflow-hidden">
+    <section id="architecture" className="relative py-24 bg-[#05070a] overflow-hidden scroll-mt-20">
       {/* Ambient background glow */}
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[400px] bg-cyan-500/5 blur-[160px] rounded-full pointer-events-none" />
 
